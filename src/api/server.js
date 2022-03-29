@@ -48,7 +48,7 @@ function getRandomInt(min, max) {
   return Math.floor(rng() * (max - min + 1)) + min;
 }
 
-const randomFromArray = (array) => {
+const randomFromArray = array => {
   const index = getRandomInt(0, array.length - 1);
   return array[index];
 };
@@ -102,7 +102,7 @@ const createUserData = () => {
   };
 };
 
-const createPostData = (user) => {
+const createPostData = user => {
   return {
     title: faker.lorem.words(),
     date: faker.date.recent(RECENT_NOTIFICATIONS_DAYS).toISOString(),
@@ -122,7 +122,7 @@ for (let i = 0; i < NUM_USERS; i++) {
   }
 }
 
-const serializePost = (post) => ({
+const serializePost = post => ({
   ...post,
   user: post.user.id,
 });
@@ -247,14 +247,14 @@ const sendRandomNotifications = (socket, since) => {
   sendMessage(socket, { type: "notifications", payload: notifications });
 };
 
-export const forceGenerateNotifications = (since) => {
+export const forceGenerateNotifications = since => {
   sendRandomNotifications(currentSocket, since);
 };
 
-socketServer.on("connection", (socket) => {
+socketServer.on("connection", socket => {
   currentSocket = socket;
 
-  socket.on("message", (data) => {
+  socket.on("message", data => {
     const message = JSON.parse(data);
 
     switch (message.type) {

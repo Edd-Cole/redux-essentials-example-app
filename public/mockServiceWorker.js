@@ -69,7 +69,7 @@ self.addEventListener("message", async function (event) {
     case "CLIENT_CLOSED": {
       activeClientIds.delete(clientId);
 
-      const remainingClients = allClients.filter((client) => {
+      const remainingClients = allClients.filter(client => {
         return client.id !== clientId;
       });
 
@@ -97,11 +97,11 @@ async function resolveMainClient(event) {
   const allClients = await self.clients.matchAll();
 
   return allClients
-    .filter((client) => {
+    .filter(client => {
       // Get only those clients that are currently visible.
       return client.visibilityState === "visible";
     })
-    .find((client) => {
+    .find(client => {
       // Find the client ID that's recorded in the
       // set of clients that have registered the worker.
       return activeClientIds.has(client.id);
@@ -268,7 +268,7 @@ self.addEventListener("fetch", function (event) {
   const requestId = uuidv4();
 
   return event.respondWith(
-    handleRequest(event, requestId).catch((error) => {
+    handleRequest(event, requestId).catch(error => {
       if (error.name === "NetworkError") {
         console.warn(
           '[MSW] Successfully emulated a network error for the "%s %s" request.',
@@ -304,7 +304,7 @@ function sendToClient(client, message) {
   return new Promise((resolve, reject) => {
     const channel = new MessageChannel();
 
-    channel.port1.onmessage = (event) => {
+    channel.port1.onmessage = event => {
       if (event.data && event.data.error) {
         return reject(event.data.error);
       }
@@ -317,7 +317,7 @@ function sendToClient(client, message) {
 }
 
 function delayPromise(cb, duration) {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     setTimeout(() => resolve(cb()), duration);
   });
 }
